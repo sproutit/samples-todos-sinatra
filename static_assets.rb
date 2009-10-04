@@ -20,3 +20,25 @@ get '/static/*' do
   send_file(path)
 
 end
+
+# Serve up SC app as well - requires config written to config.ru
+def send_app(app=nil, language=nil)
+  app = DEFAULT_APP if app.nil?
+  language = DEFAULT_LANGUAGE if language.nil?
+  
+  path = File.join(File.dirname(__FILE__), 'static', app, language, CURRENT_BUILDS[app], 'index.html')
+  send_file(path)
+end
+
+get '/' do
+  send_app
+end
+
+get "/#{DEFAULT_APP}/?" do
+  send_app
+end
+
+get "/#{DEFAULT_APP}/:language/?" do
+  send_app(DEFAULT_APP, params[:language])
+end
+

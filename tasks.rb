@@ -5,7 +5,7 @@ require 'sinatra'
 require 'dm-core'
 require 'json'
 
-require 'static'
+require 'static_assets'
 
 # Define the data model
 
