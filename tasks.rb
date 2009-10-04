@@ -5,6 +5,8 @@ require 'sinatra'
 require 'dm-core'
 require 'json'
 
+require 'static'
+
 # Define the data model
 
 DataMapper.setup(:default, ENV['DATABASE_URL'] || 
@@ -48,7 +50,7 @@ DataMapper.auto_upgrade!
 
 # return list of all installed tasks
 get '/tasks' do
-  response['Content-Type'] = 'application/json'
+  content_type 'application/json'
   { 'content' => Array(Task.all) }.to_json
 end
 
@@ -69,7 +71,7 @@ get "/tasks/:id" do
   task = Task.get(params[:id]) rescue nil
   halt(404, 'Not Found') if task.nil?
 
-  response['Content-Type'] = 'application/json'
+  content_type 'application/json'
   { 'content' => task }.to_json
 end
 
